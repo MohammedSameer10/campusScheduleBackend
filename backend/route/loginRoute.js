@@ -27,7 +27,7 @@ const login = async (req,res)=>{
             return  res.status(200).json({code:1,msg:"login Succesfull",jwt:token,userType:user.userType})
        }
        else{  
-        const {userName,password}=req.nody;
+        const {userName,password}=req.body;
         if(!userName || !password){
             console.log("validation error : missing fields");
             return  res.status(400).json({code:0,msg:"validation error : missing field"});

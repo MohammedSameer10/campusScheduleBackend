@@ -8,9 +8,9 @@ const tokenAuthenticator = require('../middleware/tokenAuthentication');
 //Post - Creation of venues
 const createVenue = async (req,res)=>{
     try {     
-        const {name,type,max_capacity,status} = req.body;
-        if(!(name && type && max_capacity && status)){
-            console.log(`missing required fields name:${name} type:${type} maxCapacity:${max_capacity} status:${status}`);
+        const {name,type,max_capacity,status="available"} = req.body;
+        if(!(name && type && max_capacity)){
+            console.log(`missing required fields name:${name} type:${type} maxCapacity:${max_capacity} }`);
             return res.json({code:0,msg:"Validation error : missing fields"})
         }
         const id = await idGenerationModel.findOne();
@@ -36,7 +36,7 @@ const createVenue = async (req,res)=>{
                 venueId:newId,
                 venueType:type,
                 max_capacity,
-                status
+                status,
             }
         );
         console.log(`new venue obj:${newVenue}`)
@@ -52,7 +52,7 @@ const createVenue = async (req,res)=>{
     const getAllVenue =async (req,res)=>{
         try {
             const venues = await venueModel.find();
-            if(!venues){
+            if(venues.length===0){
                 console.log(`cant find any venues . its empty`);
                 return res.status(400).json({code:0,msg:"No venues found"});
             }
@@ -91,7 +91,7 @@ const createVenue = async (req,res)=>{
             status: venue.status
         }
         console.log(`hi`);
-        return res.status(200).json({code:1,msg:"succesfull fetched venue details for the venue id",response});
+        return res.status(200).json({code:1,msg:"succesfully fetched venue details for the venue id",response});
     } catch (error) {
         console.log(`Internel Server error : while getting the venue via Id:${error}`)
         return res.status(500).json({code:-1,msg:"Internel Server error : while getting the venue via Id"})
@@ -113,12 +113,12 @@ const createVenue = async (req,res)=>{
         if(type)venue.venueType=type;
         if(max_capacity)venue.max_capacity=max_capacity;
         if(status)venue.status=status;
-        venue.save();
+        await venue.save();
         console.log(`updated venue succesfully`)
         return res.status(200).json({code:1,msg:"succesfully updated the venue details"});
     } catch (error) {
-        console.log(`Internel Server error : while updating the venue via Id:${id}`)
-        return res.staus(500).json({code:-1,msg:"Internel Server error : while updating the venue via Id"})
+        console.log(`Internel Server error : while updating the venue via Id: ${error}`)
+        return res.status(500).json({code:-1,msg:"Internel Server error : while updating the venue via Id"})
     }
   }
     
@@ -126,13 +126,9 @@ const createVenue = async (req,res)=>{
 
   const deleteVenueWithId = async (req,res)=>{
     try {
-        const id = req.params;
-        if(!id){
-            console.log(`id is missing lol id : ${id}`);
-            return res.status(400).json({code:0,msg:"Validation error : missing id feild"});
-        }
+        const id = req.params.id;
         const delet = await venueModel.deleteOne({venueId:id});
-         if(delet == 0){
+         if(delet.deletedCount  === 0){
             console.log(`Validation Server Error in deleting the venue No document found`);
             return res.status(400).json({code:0,msg:"Validation error : no matching document found"});
          }
@@ -150,5 +146,5 @@ venueRouter.post('/',tokenAuthenticator,createVenue);
 venueRouter.get('/',tokenAuthenticator,getAllVenue);
 venueRouter.get('/:id',tokenAuthenticator,getVenueWithId);
 venueRouter.put('/:id',tokenAuthenticator,editVenueWIthId);
-venueRouter.delete('/:id',tokenAuthenticator,editVenueWIthId);
+venueRouter.delete('/:id',tokenAuthenticator,deleteVenueWithId);
 module.exports = venueRouter;

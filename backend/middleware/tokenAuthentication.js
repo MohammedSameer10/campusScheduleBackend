@@ -13,13 +13,10 @@ const authenticator = async (req,res,next)=>{
             return res.status(400).json({code:0,msg:"Invalid token"});
         }
         const {loginType} = req.body;
-        let user; 
-        if(loginType=="OAuth"){
-             user = await userDetailModel.findOne({email:decoded.email});
-        }
-        else{
-             user = await userDetailModel.findOne({userName:decoded.userName});
-        }
+         
+           let  user = await userDetailModel.findOne({email:decoded.email});  
+           if(!user)   user = await userDetailModel.findOne({userName:decoded.userName});
+             console.log(`user : ${user}`);
         if(!user){
             return res.status(400).json({code:0,msg:"token Authentication failed"});
         }
