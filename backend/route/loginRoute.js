@@ -54,7 +54,7 @@ const login = async (req,res)=>{
          return  res.status(200).json({code:1,msg:"login Succesfull",jwt:token,userType:user.userType})
     }
    } catch (error) {
-    console.log(`Internel server error during login ${error}`)
+    console.log(`Internel server error during login ${error.message}`)
     return res.status(500).json({code:-1,msg:"Internel server error during login"});
    }
 }

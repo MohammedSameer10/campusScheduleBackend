@@ -61,7 +61,7 @@ const createVenue = async (req,res)=>{
                     id: venue.venueId,
                     name: venue.venueName,
                     type:venue.venueType,
-                    max_capacity: venue.max_capacity,
+                    max_capacity: venue.max_oombucapacity,
                     status: venue.status
                 }
             )); 
@@ -76,7 +76,7 @@ const createVenue = async (req,res)=>{
   const getVenueWithId = async (req,res)=>{
     try {
         const id = req.params.id;
-        const venue = await venueModel.findOne({venueId:id});
+        const venue = await venueModel.findOne({venueId:id})
         console.log(`hi`);
         if(!venue){
             console.log(`validation error : while getting no venues found for the matching id:${id}`);
