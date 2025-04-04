@@ -9,12 +9,12 @@ const createGroup = async (req,res)=>{
         const {groupName,studentArray} = req.body;
         if(!(groupName && studentArray.length !== 0)){
             console.log(`Validation error : missing parameters`);
-            return res.status(400).json({code:0,msg:"Validation error : missing parameters"});
+            return res.status(400).json({code:0,msg:"Validation error : missing parameters ."});
         }
         const id = await idGenerationModel.findOne();
             if(!id){
-                console.log(`error while generating id`)
-                res.status(400).json({code:0,msg:"Validation error: error in Goats code. nothing wrong in ur side ."})
+                console.log(`error while generating  id`)
+               return res.status(400).json({code:0,msg:"Validation error: error in Goats code. nothing wrong in ur side ."})
             }
             const arr = id.deletedIds;
             let newId;

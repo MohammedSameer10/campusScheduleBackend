@@ -14,6 +14,6 @@ app.use('/api/v1',loginRouter);
 app.use('/api/v1/venue',venueRouter);
 app.use('/api/v1/user',userRouter);
 app.use('/api/v1/group',groupRouter);
-app.listen(process.env.PORT || 8000,()=>{
+app.listen(process.env.PORT || 8000,"0.0.0.0",()=>{
     console.log(`server is running on port : ${process.env.PORT}`);
 })
