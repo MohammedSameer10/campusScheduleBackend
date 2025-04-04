@@ -18,6 +18,7 @@ const login = async (req,res)=>{
                 console.log("validation error : No User Found");
                return res.status(400).json({code:0,msg:"validation error : No User Found for this email"});
             }
+            console.log(`key: ${process.env.SECRETKEY}`)
             const token = jwt.sign(
                 {email:user.email},
                 process.env.SECRETKEY,
@@ -44,11 +45,13 @@ const login = async (req,res)=>{
            return res.status(400).json({code:0,msg:"validation error : Incorrect PassWord"});
         }
 
+        console.log(`key: ${process.env.SECRETKEY}`)
         const token = jwt.sign(
             { userName: user.userName },
              process.env.SECRETKEY,
             { expiresIn:"1h"}
         );
+        
         user.password = undefined;
         console.log(`Token generated : jwt : ${token}`);
          return  res.status(200).json({code:1,msg:"login Succesfull",jwt:token,userType:user.userType})
