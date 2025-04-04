@@ -4,6 +4,7 @@ const userDetailModel = require('../model/userDetailModel')
 const jwt=require('jsonwebtoken')
 
 const login = async (req,res)=>{
+    console.log("a")
    try {
         const {loginType} = req.body;
 
@@ -28,6 +29,7 @@ const login = async (req,res)=>{
             return  res.status(200).json({code:1,msg:"login Succesfull",jwt:token,userType:user.userType})
        }
        else{  
+        console.log("b")
         const {userName,password}=req.body;
         if(!userName || !password){
             console.log("validation error : missing fields");
@@ -35,6 +37,7 @@ const login = async (req,res)=>{
         }
         const user = await userDetailModel.findOne({userName});
 
+        console.log("b")
         if(!user){
             console.log("validation error : No User Found");
            return res.status(400).json({code:0,msg:"validation error : No User Found"});
@@ -44,6 +47,7 @@ const login = async (req,res)=>{
             console.log("validation error : Incorrect PassWord");
            return res.status(400).json({code:0,msg:"validation error : Incorrect PassWord"});
         }
+        console.log("c")
 
         console.log(`key: ${process.env.SECRETKEY}`)
         const token = jwt.sign(
@@ -57,7 +61,7 @@ const login = async (req,res)=>{
          return  res.status(200).json({code:1,msg:"login Succesfull",jwt:token,userType:user.userType})
     }
    } catch (error) {
-    console.log(`Internel server error during login ${error.message}`)
+    console.log(`Internel server error during login ${error}`)
     return res.status(500).json({code:-1,msg:"Internel server error during login"});
    }
 }
