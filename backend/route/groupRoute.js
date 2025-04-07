@@ -121,9 +121,9 @@ const deleteGroupWithid = async (req,res)=>{
         return res.status(500).json({code:-1,msg:"Internel server error",error});
     }
 }
-groupRouter.post('/',tokenAuthentication,createGroup);
-groupRouter.get('/',tokenAuthentication,getAllGroups);
-groupRouter.get('/:id',tokenAuthentication,getGroupWithId);
-groupRouter.put('/:id',tokenAuthentication,editGroupWithId);
-groupRouter.delete('/:id',tokenAuthentication,deleteGroupWithid);
+groupRouter.post('/',createGroup);
+groupRouter.get('/',getAllGroups);
+groupRouter.get('/:id',getGroupWithId);
+groupRouter.put('/:id',editGroupWithId);
+groupRouter.delete('/:id',deleteGroupWithid);
 module.exports = groupRouter;

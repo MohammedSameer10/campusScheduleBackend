@@ -142,9 +142,9 @@ const createVenue = async (req,res)=>{
   }
 
 
-venueRouter.post('/',tokenAuthenticator,createVenue);
-venueRouter.get('/',tokenAuthenticator,getAllVenue);
-venueRouter.get('/:id',tokenAuthenticator,getVenueWithId);
-venueRouter.put('/:id',tokenAuthenticator,editVenueWIthId);
-venueRouter.delete('/:id',tokenAuthenticator,deleteVenueWithId);
+venueRouter.post('/',createVenue);
+venueRouter.get('/',getAllVenue);
+venueRouter.get('/:id',getVenueWithId);
+venueRouter.put('/:id',editVenueWIthId);
+venueRouter.delete('/:id',deleteVenueWithId);
 module.exports = venueRouter;

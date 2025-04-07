@@ -8,9 +8,11 @@ const loginRouter = require('./route/loginRoute');
 const venueRouter = require('./route/venueRoute');
 const userRouter = require('./route/userDetailRoute');
 const groupRouter = require('./route/groupRoute');
+const tokenAuthenticator = require('./middleware/tokenAuthentication');
 app.use(express.json())
 
 app.use('/api/v1',loginRouter);
+app.use('/api/v1/verify',tokenAuthenticator);
 app.use('/api/v1/venue',venueRouter);
 app.use('/api/v1/user',userRouter);
 app.use('/api/v1/group',groupRouter);

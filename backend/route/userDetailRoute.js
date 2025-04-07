@@ -135,9 +135,9 @@ const deleteUserWithId = async (req,res)=>{
   }
 }
 
-userDetailRouter.post('/',tokenAuthenticator,createUser);
-userDetailRouter.get('/',tokenAuthenticator,getAlluser);
-userDetailRouter.get('/:id',tokenAuthenticator,getuserById);
-userDetailRouter.put('/:id',tokenAuthenticator,updateUser);
-userDetailRouter.delete('/:id',tokenAuthenticator,deleteUserWithId);
+userDetailRouter.post('/',createUser);
+userDetailRouter.get('/',getAlluser);
+userDetailRouter.get('/:id',getuserById);
+userDetailRouter.put('/:id',updateUser);
+userDetailRouter.delete('/:id',deleteUserWithId);
 module.exports=userDetailRouter;
