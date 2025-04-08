@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 dotenv.config();
 const app = express();
 const connectDb = require('./config/dbConnection');
@@ -10,7 +11,7 @@ const userRouter = require('./route/userDetailRoute');
 const groupRouter = require('./route/groupRoute');
 const tokenAuthenticator = require('./middleware/tokenAuthentication');
 app.use(express.json())
-
+app.use(cors());
 app.use('/api/v1',loginRouter);
 app.use('/api/v1/verify',tokenAuthenticator);
 app.use('/api/v1/venue',venueRouter);
