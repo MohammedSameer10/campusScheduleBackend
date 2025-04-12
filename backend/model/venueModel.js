@@ -22,7 +22,7 @@ const venueSchema = mongoose.Schema(
             default:"available",
             validate:{
                 validator : (sam)=>{
-                    return ["booked","available","maintenance"].includes(sam);
+                    return ["Maintenance","Active"].includes(sam);
                 },
                 message : "invalid status updation for booking"
             }

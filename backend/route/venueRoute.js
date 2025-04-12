@@ -56,16 +56,16 @@ const createVenue = async (req,res)=>{
                 console.log(`cant find any venues . its empty`);
                 return res.status(400).json({code:0,msg:"No venues found"});
             }
-            const arr = venues.map(venue => (
+            const venue = venues.map(venue => (
                 {
                     id: venue.venueId,
                     name: venue.venueName,
                     type:venue.venueType,
-                    max_capacity: venue.max_oombucapacity,
+                    max_capacity: venue.max_capacity,
                     status: venue.status
                 }
             )); 
-            return res.status(200).json({code:1,msg:"Succesfully sent all avaliable venues as array",arr})
+            return res.status(200).json({code:1,msg:"Succesfully sent all avaliable venues as array",venue})
         } catch (error) {
             console.log(`Internel Server error : getAllVenue Route`);
             return res.status(500).json({code:-1,msg:"Internel Server error : getAllVenue Route"})
@@ -102,13 +102,15 @@ const createVenue = async (req,res)=>{
   const editVenueWIthId = async (req,res)=>{
     try {
         
-        const id = req.params.id;
+        const {id} = req.body;
         const {name,type,max_capacity,status}=req.body;
+        console.log(name,type,max_capacity,status)
         const venue = await venueModel.findOne({venueId:id});
         if(!venue){
             console.log(`no venues found, while updating the venue via Id:${id}}`)
             return res.status(400).json({code:0,msg:"no venues found, while updating the venue via Id"})
         }
+        console.log(venue)
         if(name)venue.venueName=name;
         if(type)venue.venueType=type;
         if(max_capacity)venue.max_capacity=max_capacity;
@@ -126,7 +128,7 @@ const createVenue = async (req,res)=>{
 
   const deleteVenueWithId = async (req,res)=>{
     try {
-        const id = req.params.id;
+        const {id} = req.body;
         const delet = await venueModel.deleteOne({venueId:id});
          if(delet.deletedCount  === 0){
             console.log(`Validation Server Error in deleting the venue No document found`);
@@ -142,9 +144,9 @@ const createVenue = async (req,res)=>{
   }
 
 
-venueRouter.post('/',createVenue);
+venueRouter.post('/add',createVenue);
 venueRouter.get('/',getAllVenue);
 venueRouter.get('/:id',getVenueWithId);
-venueRouter.put('/:id',editVenueWIthId);
-venueRouter.delete('/:id',deleteVenueWithId);
+venueRouter.post('/edit',editVenueWIthId);
+venueRouter.post('/delete',deleteVenueWithId);
 module.exports = venueRouter;

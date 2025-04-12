@@ -17,7 +17,6 @@ const userDetailModel = require('../model/userDetailModel');
 const key = "stop yor usless talk and learn to use your brain bro, you could have debug this but you did't do it and waste in talking";
 const authenticator = async (req,res)=>{
     try{
-       
         const token  =req.body.jwt ||   req.headers.authorization?.split(" ")[1] || req.cookies.token;
         if(!token){
             console.log(`token didnt fetched jwt : ${jwt}`);
@@ -42,7 +41,7 @@ const authenticator = async (req,res)=>{
     }
     catch(err){
         console.log(`token authenticator error : token got expired`)
-        res.status(500).json({code:-1,msg:"token authenticator error : token got expired"})
+        res.status(500).json({code:-1,auth:false,msg:"token authenticator error : token got expired"})
     }
 }
 module.exports = authenticator;
